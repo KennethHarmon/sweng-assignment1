@@ -1,16 +1,16 @@
 from typing import List
-
-
 running = True
+
+Valid_operators = set(['+', '-', '*'])
+Priority = {'+':1, '-':1, '*':2}
 
 def convert_input_to_list(user_input: str) -> List:
     current_num = ''
     ouptut_list = []
-    valid_operators = ['+', '-', '*']
     for char in user_input:
         if char.isnumeric():
             current_num += char
-        elif char in valid_operators:
+        elif char in Valid_operators:
             if current_num != '':
                 ouptut_list.append(int(current_num))
                 current_num = ''
@@ -25,9 +25,30 @@ def convert_input_to_list(user_input: str) -> List:
     
     return ouptut_list
 
+def switch_expression_to_postfix(expression: List) -> List:
+    stack = []
+    output_list = []
+
+    for elem in expression:
+        if elem not in Valid_operators:
+                output_list.append(elem)
+        else: 
+            print(f'Is operator {elem}')
+            while stack and Priority[elem]<=Priority[stack[-1]]:
+                output_list.append(stack.pop())
+            stack.append(elem)
+
+    while stack:
+        output_list+=stack.pop()
+
+    return output_list
+
+
 while (running):
     user_input = input("Please enter the expression you would like to caluclate: ") 
-    output_list = convert_input_to_list(user_input)
-    print(output_list)
+    infix_expression = convert_input_to_list(user_input)
+    print(f'Infix: {infix_expression}')
+    postfix_expression = switch_expression_to_postfix(infix_expression)
+    print(f'Postfix: {postfix_expression}')
 
     
