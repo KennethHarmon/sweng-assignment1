@@ -44,11 +44,35 @@ def switch_expression_to_postfix(expression: List) -> List:
     return output_list
 
 
+def evaluate_postfix_expression(postfix_list):
+    stack = []     
+    for digit in postfix_list:
+        currentVal = None
+        if digit in [1,2,3,4,5,6,7,8,9,0]:
+            stack.append(digit)
+        elif not len(stack)==0:
+            if digit == "-":
+                currentVal = stack.pop() - stack.pop()
+            elif digit == "+":
+                currentVal = stack.pop() + stack.pop()
+            elif digit == "*":
+                currentVal = stack.pop() * stack.pop()
+
+            if currentVal is not None:
+                stack.append(currentVal)
+            else:
+                raise Exception("Invalid input: %s"%digit)       
+    return stack.pop()
+
+
 while (running):
     user_input = input("Please enter the expression you would like to caluclate: ") 
     infix_expression = convert_input_to_list(user_input)
     print(f'Infix: {infix_expression}')
     postfix_expression = switch_expression_to_postfix(infix_expression)
     print(f'Postfix: {postfix_expression}')
+    answer = evaluate_postfix_expression(postfix_expression)
+    print(f'Final answer: {answer}')
+    
 
     
