@@ -48,7 +48,7 @@ def evaluate_postfix_expression(postfix_list):
     stack = []     
     for digit in postfix_list:
         currentVal = None
-        if digit in [1,2,3,4,5,6,7,8,9,0]:
+        if isinstance(digit,int):
             stack.append(digit)
         elif not len(stack)==0:
             if digit == "-":
@@ -61,8 +61,12 @@ def evaluate_postfix_expression(postfix_list):
             if currentVal is not None:
                 stack.append(currentVal)
             else:
-                raise Exception("Invalid input: %s"%digit)       
-    return stack.pop()
+                raise Exception("Invalid input: %s"%digit)
+
+    if not len(stack) == 0 :      
+        return stack.pop()
+    else:
+        return
 
 
 while (running):
