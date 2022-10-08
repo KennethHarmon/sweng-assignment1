@@ -4,26 +4,17 @@ running = True
 Valid_operators = set(['+', '-', '*'])
 Priority = {'+':1, '-':1, '*':2}
 
+def peek(some_list):
+    return some_list[-1]
+
 def convert_input_to_list(user_input: str) -> List:
-    current_num = ''
-    ouptut_list = []
-    for char in user_input:
-        if char.isnumeric():
-            current_num += char
-        elif char in Valid_operators:
-            if current_num != '':
-                ouptut_list.append(int(current_num))
-                current_num = ''
-            ouptut_list.append(char)
-        elif char == ' ':
-            pass
-        else:
-            print("Error, invalid token in input string, please only enter integers, '*', '+', '-'.")
-    
-    if current_num != '':
-        ouptut_list.append(int(current_num))
-    
-    return ouptut_list
+    output_list = user_input.split(' ')
+    i = -1
+    for elem in output_list:
+        i += 1
+        if elem not in Valid_operators:
+            output_list[i] = int(elem)
+    return output_list
 
 def switch_expression_to_postfix(expression: List) -> List:
     stack = []
@@ -49,7 +40,7 @@ def evaluate_postfix_expression(postfix_list):
     for digit in postfix_list:
         currentVal = None
         if isinstance(digit,int):
-            stack.append(digit)
+            stack.insert(0,digit)
         elif not len(stack)==0:
             if digit == "-":
                 currentVal = stack.pop() - stack.pop()
@@ -68,6 +59,7 @@ def evaluate_postfix_expression(postfix_list):
     else:
         return
 
+    
 
 while (running):
     user_input = input("Please enter the expression you would like to caluclate: ") 
