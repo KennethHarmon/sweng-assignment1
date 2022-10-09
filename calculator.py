@@ -1,5 +1,5 @@
+from ast import Raise
 from typing import List
-running = True
 
 Valid_operators = set(['+', '-', '*'])
 Priority = {'+':1, '-':1, '*':2}
@@ -18,7 +18,7 @@ def convert_input_to_list(user_input: str) -> List:
         elif char == ' ':
             pass
         else:
-            print("Error, invalid token in input string, please only enter integers, '*', '+', '-'.")
+            raise TypeError("Error, invalid token in input string, please only enter integers, '*', '+', '-'.")
     
     if current_num != '':
         ouptut_list.append(int(current_num))
@@ -33,7 +33,6 @@ def switch_expression_to_postfix(expression: List) -> List:
         if elem not in Valid_operators:
                 output_list.append(elem)
         else: 
-            print(f'Is operator {elem}')
             while stack and Priority[elem]<=Priority[stack[-1]]:
                 output_list.append(stack.pop())
             stack.append(elem)
@@ -69,7 +68,7 @@ def evaluate_postfix_expression(postfix_list):
         return
 
 
-while (running):
+if __name__ == "__main__":
     user_input = input("Please enter the expression you would like to caluclate: ") 
     infix_expression = convert_input_to_list(user_input)
     print(f'Infix: {infix_expression}')
