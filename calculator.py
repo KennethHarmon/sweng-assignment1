@@ -4,9 +4,6 @@ from typing import List
 Valid_operators = set(['+', '-', '*'])
 Priority = {'+':1, '-':1, '*':2}
 
-def peek(some_list):
-    return some_list[-1]
-
 def convert_input_to_list(user_input: str) -> List:
     current_num = ''
     ouptut_list = []
@@ -51,10 +48,10 @@ def evaluate_postfix_expression(postfix_list):
     for digit in postfix_list:
         currentVal = None
         if isinstance(digit,int):
-            stack.insert(0,digit)
+            stack.append(digit)
         elif not len(stack)==0:
             if digit == "-":
-                currentVal = stack.pop() - stack.pop()
+                currentVal = -stack.pop() + stack.pop()
             elif digit == "+":
                 currentVal = stack.pop() + stack.pop()
             elif digit == "*":
